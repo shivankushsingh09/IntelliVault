@@ -1,0 +1,797 @@
+/* ==========================================
+   IntelliVault — Clean Minimal Dark Theme
+   ========================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800&display=swap');
+
+/* ---------- Design Tokens ---------- */
+:root, [data-theme="dark"] {
+    --iv-bg: #0f172a;
+    --iv-card: #1e293b;
+    --iv-card-border: #334155;
+    --iv-input-bg: #0f172a;
+    --iv-input-border: #475569;
+    --iv-text: #f1f5f9;
+    --iv-text-muted: #94a3b8;
+    --iv-primary: #6366f1;
+    --iv-primary-hover: #818cf8;
+    --iv-link: #818cf8;
+    --iv-radius: 10px;
+}
+
+[data-theme="light"] {
+    --iv-bg: #f8fafc;
+    --iv-card: #ffffff;
+    --iv-card-border: #cbd5e1;
+    --iv-input-bg: #ffffff;
+    --iv-input-border: #94a3b8;
+    --iv-text: #0f172a;
+    --iv-text-muted: #475569;
+    --iv-primary: #4f46e5;
+    --iv-primary-hover: #4338ca;
+    --iv-link: #4f46e5;
+}
+
+/* ---------- Reset & Base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { height: 100%; }
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background-color: var(--iv-bg);
+    color: var(--iv-text);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- Navbar ---------- */
+.navbar.iv-navbar {
+    background-color: var(--iv-card) !important;
+    border-bottom: 1px solid var(--iv-card-border);
+    padding: 0.6rem 1rem;
+}
+
+.iv-navbar .navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--iv-text) !important;
+}
+
+.iv-navbar .iv-brand-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: var(--iv-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 0.85rem;
+}
+
+.iv-navbar .nav-link {
+    color: var(--iv-text-muted) !important;
+    font-size: 0.875rem;
+    font-weight: 500;
+    padding: 0.5rem 0.75rem !important;
+    border-radius: 6px;
+    transition: color 0.2s, background 0.2s;
+}
+
+.iv-navbar .nav-link:hover,
+.iv-navbar .nav-link.active {
+    color: var(--iv-text) !important;
+    background: rgba(99, 102, 241, 0.12);
+}
+
+.iv-navbar .navbar-toggler {
+    border-color: var(--iv-card-border);
+    padding: 0.35rem 0.6rem;
+}
+
+.iv-navbar .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba(148,163,184,1)' stroke-linecap='round' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+/* Dropdown */
+.iv-navbar .dropdown-menu {
+    background: var(--iv-card);
+    border: 1px solid var(--iv-card-border);
+    border-radius: var(--iv-radius);
+    padding: 0.4rem;
+    min-width: 11rem;
+}
+
+.iv-navbar .dropdown-item {
+    color: var(--iv-text-muted);
+    border-radius: 6px;
+    font-size: 0.85rem;
+    padding: 0.45rem 0.75rem;
+}
+
+.iv-navbar .dropdown-item:hover {
+    background: rgba(99, 102, 241, 0.12);
+    color: var(--iv-primary);
+}
+
+.iv-navbar .dropdown-divider {
+    border-color: var(--iv-card-border);
+}
+
+/* ---------- Main Content ---------- */
+main.main-shell {
+    flex: 1;
+    padding: 2rem 1rem;
+}
+
+/* ---------- Auth Pages ---------- */
+.iv-auth-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 120px);
+    padding: 2rem 1rem;
+}
+
+.iv-auth-card {
+    width: 100%;
+    max-width: 420px;
+}
+
+.iv-auth-card.iv-auth-card--wide {
+    max-width: 480px;
+}
+
+.iv-card {
+    background: var(--iv-card);
+    border: 1px solid var(--iv-card-border);
+    border-radius: 14px;
+    padding: 2.5rem 2rem;
+}
+
+.iv-auth-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    background: var(--iv-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.25rem;
+    font-size: 1.3rem;
+    color: #fff;
+}
+
+.iv-auth-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--iv-text);
+    margin: 0 0 0.25rem;
+}
+
+/* Adaptive hero title used on auth pages */
+.hero-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--iv-text);
+    margin: 0 0 0.25rem;
+}
+
+.iv-auth-subtitle {
+    color: var(--iv-text-muted);
+    font-size: 0.9rem;
+    margin: 0 0 1.75rem;
+}
+
+/* ---------- Forms ---------- */
+.iv-label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--iv-text-muted);
+    margin-bottom: 0.35rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.iv-input {
+    display: block;
+    width: 100%;
+    padding: 0.7rem 0.9rem;
+    font-size: 0.925rem;
+    color: var(--iv-text);
+    background: var(--iv-input-bg);
+    border: 1px solid var(--iv-input-border);
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    font-family: inherit;
+}
+
+.iv-input::placeholder {
+    color: #64748b;
+}
+
+.iv-input:focus {
+    border-color: var(--iv-primary);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+
+.iv-form-hint {
+    font-size: 0.75rem;
+    color: var(--iv-text-muted);
+    margin-top: 0.25rem;
+}
+
+.iv-field {
+    margin-bottom: 1.1rem;
+}
+
+/* Password field with toggle */
+.iv-password-wrap {
+    position: relative;
+}
+
+.iv-password-wrap .iv-input {
+    padding-right: 2.75rem;
+}
+
+.iv-password-toggle {
+    position: absolute;
+    right: 0.65rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--iv-text-muted);
+    cursor: pointer;
+    padding: 0.25rem;
+    font-size: 0.9rem;
+    line-height: 1;
+}
+
+.iv-password-toggle:hover {
+    color: var(--iv-text);
+}
+
+/* Checkbox */
+.iv-check {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--iv-text-muted);
+}
+
+.iv-check input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--iv-primary);
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.iv-check a {
+    color: var(--iv-link);
+    text-decoration: none;
+}
+
+.iv-check a:hover {
+    text-decoration: underline;
+}
+
+/* ---------- Buttons ---------- */
+.iv-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    font-family: inherit;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+}
+
+.iv-btn--primary {
+    background: var(--iv-primary);
+    color: #fff;
+}
+
+.iv-btn--primary:hover {
+    background: var(--iv-primary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+.iv-btn--primary:active {
+    transform: translateY(0);
+}
+
+/* ---------- Links ---------- */
+.iv-link {
+    color: var(--iv-link);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.iv-link:hover {
+    text-decoration: underline;
+    color: var(--iv-primary-hover);
+}
+
+/* ---------- Demo Box ---------- */
+.iv-demo-box {
+    background: rgba(99, 102, 241, 0.08);
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    font-size: 0.82rem;
+    color: var(--iv-text-muted);
+    margin-top: 1.25rem;
+}
+
+.iv-demo-box strong {
+    color: var(--iv-text);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.iv-demo-box code {
+    background: rgba(99, 102, 241, 0.12);
+    color: var(--iv-link);
+    padding: 0.1rem 0.45rem;
+    border-radius: 4px;
+    font-size: 0.82rem;
+}
+
+/* ---------- Misc Auth ---------- */
+.iv-auth-footer {
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--iv-text-muted);
+    margin-top: 1.25rem;
+}
+
+.iv-auth-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.iv-divider {
+    height: 1px;
+    background: var(--iv-card-border);
+    margin: 1.25rem 0;
+}
+
+/* ---------- Footer ---------- */
+.iv-footer {
+    background: var(--iv-card);
+    border-top: 1px solid var(--iv-card-border);
+    padding: 1.25rem 0;
+    margin-top: auto;
+    font-size: 0.85rem;
+    color: var(--iv-text-muted);
+}
+
+.iv-footer strong {
+    color: var(--iv-text);
+    font-weight: 600;
+}
+
+/* ---------- Cards (Dashboard etc.) ---------- */
+.card {
+    background: var(--iv-card);
+    border: 1px solid var(--iv-card-border);
+    border-radius: var(--iv-radius);
+    color: var(--iv-text);
+}
+
+.card .card-header {
+    background: transparent;
+    border-bottom: 1px solid var(--iv-card-border);
+}
+
+.hero-panel {
+    background: var(--iv-card);
+    border: 1px solid var(--iv-card-border);
+    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+}
+
+.profile-avatar {
+    width: 96px;
+    height: 96px;
+    margin: 0 auto;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(99,102,241,0.95), rgba(79,70,229,0.95));
+    color: #fff;
+    display: grid;
+    place-items: center;
+    font-size: 2.5rem;
+    font-weight: 700;
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.14);
+}
+
+.profile-detail {
+    padding: 1rem 1rem 0.75rem;
+    border-radius: 14px;
+    background: rgba(99, 102, 241, 0.07);
+    border: 1px solid rgba(99, 102, 241, 0.15);
+}
+
+.profile-detail small {
+    display: block;
+    margin-bottom: 0.35rem;
+    color: var(--iv-text-muted);
+}
+
+.breadcrumb {
+    background: transparent;
+    padding: 0;
+    margin: 0;
+}
+
+.settings-card {
+    min-height: 100%;
+}
+
+.settings-section {
+    padding: 1.6rem;
+    border-radius: 20px;
+    background: var(--iv-card);
+    border: 1px solid var(--iv-card-border);
+}
+
+.settings-section h5 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--iv-text);
+}
+
+.setting-note {
+    color: var(--iv-text-muted);
+    font-size: 0.92rem;
+}
+
+.form-control:disabled,
+.form-select:disabled {
+    background: var(--iv-input-bg);
+    opacity: 1;
+}
+
+.form-control,
+.form-select,
+textarea.form-control {
+    background: var(--iv-input-bg);
+    color: var(--iv-text);
+    border: 1px solid var(--iv-input-border);
+}
+
+textarea.form-control {
+    min-height: 110px;
+}
+
+.breadcrumb .breadcrumb-item + .breadcrumb-item::before {
+    color: var(--iv-text-muted);
+}
+
+.btn-outline-light {
+    border-color: var(--iv-card-border);
+    color: var(--iv-text);
+}
+
+.btn-outline-light:hover {
+    background: rgba(79, 70, 229, 0.1);
+    border-color: var(--iv-primary);
+    color: var(--iv-text);
+}
+
+/* Buttons — Bootstrap overrides for dashboard */
+.btn-primary {
+    background-color: var(--iv-primary) !important;
+    border-color: var(--iv-primary) !important;
+}
+
+.btn-primary:hover {
+    background-color: var(--iv-primary-hover) !important;
+    border-color: var(--iv-primary-hover) !important;
+}
+
+.btn-outline-primary {
+    color: var(--iv-link);
+    border-color: var(--iv-primary);
+}
+
+.btn-outline-primary:hover {
+    background: var(--iv-primary);
+    border-color: var(--iv-primary);
+    color: #fff;
+}
+
+.btn-outline-light {
+    border-color: var(--iv-card-border);
+    color: var(--iv-text);
+}
+
+.btn-outline-light:hover {
+    background: rgba(79, 70, 229, 0.08);
+    border-color: var(--iv-primary);
+    color: var(--iv-text);
+}
+
+..btn-light {
+    background-color: var(--iv-card) !important;
+    border-color: var(--iv-card-border) !important;
+    color: var(--iv-text) !important;
+    font-weight: 600;
+}
+
+.btn-light:hover {
+    background-color: var(--iv-input-bg) !important;
+    color: var(--iv-text) !important;
+}
+
+:root[data-theme="light"] .hero-panel .btn-light {
+    background-color: rgba(59, 130, 246, 0.08) !important;
+    border-color: rgba(59, 130, 246, 0.18) !important;
+    color: var(--iv-text) !important;
+}
+
+:root[data-theme="light"] .hero-panel .btn-light:hover {
+    background-color: rgba(59, 130, 246, 0.12) !important;
+}
+
+.btn-secondary {
+    background: var(--iv-input-bg);
+    border: 1px solid var(--iv-card-border);
+    color: var(--iv-text);
+}
+
+.btn-secondary:hover {
+    background: var(--iv-card);
+    border-color: var(--iv-input-border);
+    color: var(--iv-text);
+}
+
+/* Form controls — Bootstrap overrides for dashboard */
+.form-control,
+.form-select {
+    background: var(--iv-input-bg);
+    color: var(--iv-text);
+    border: 1px solid var(--iv-input-border);
+    border-radius: 8px;
+}
+
+.form-control:focus,
+.form-select:focus {
+    background: var(--iv-input-bg);
+    color: var(--iv-text);
+    border-color: var(--iv-primary);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+
+.form-control::placeholder {
+    color: #64748b;
+}
+
+.form-label {
+    color: var(--iv-text);
+}
+
+.input-group-text {
+    background: var(--iv-card);
+    border-color: var(--iv-input-border);
+    color: var(--iv-text-muted);
+}
+
+/* Tables */
+.table {
+    color: var(--iv-text);
+}
+
+.table thead th {
+    border-bottom-color: var(--iv-card-border);
+}
+
+.table-dark {
+    --bs-table-bg: transparent;
+    --bs-table-border-color: var(--iv-card-border);
+}
+
+.table-dark th,
+.table-dark td {
+    color: var(--iv-text) !important;
+    border-color: var(--iv-card-border) !important;
+}
+
+.table-dark thead th {
+    color: var(--iv-text-muted) !important;
+}
+
+.table-dark tbody tr {
+    background-color: transparent !important;
+}
+
+/* Alerts */
+.alert {
+    background: var(--iv-card);
+    border-color: var(--iv-card-border);
+    color: var(--iv-text);
+    border-radius: var(--iv-radius);
+}
+
+/* Dashboard hero panels */
+.dashboard-hero {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.92), rgba(99, 102, 241, 0.88));
+    color: #fff;
+    border-color: transparent;
+    box-shadow: 0 24px 70px rgba(15, 23, 42, 0.16);
+}
+
+.dashboard-hero .card-body {
+    background: transparent;
+}
+
+.dashboard-hero .text-muted {
+    color: rgba(255, 255, 255, 0.78) !important;
+}
+
+.dashboard-hero .badge-soft {
+    background: rgba(255, 255, 255, 0.12);
+    color: rgba(255, 255, 255, 0.95);
+}
+
+.dashboard-hero .btn-light {
+    background-color: rgba(255, 255, 255, 0.94) !important;
+    color: #0f172a !important;
+    border-color: rgba(255, 255, 255, 0.62) !important;
+}
+
+.dashboard-hero .btn-light:hover {
+    background-color: #ffffff !important;
+}
+
+.dashboard-hero .btn-outline-light {
+    color: #fff !important;
+    border-color: rgba(255, 255, 255, 0.55) !important;
+}
+
+.dashboard-hero .btn-outline-light:hover {
+    background: rgba(255, 255, 255, 0.08) !important;
+}
+
+.dashboard-hero .bg-vault {
+    background: rgba(255, 255, 255, 0.06) !important;
+}
+
+:root[data-theme="light"] .hero-panel .text-white {
+    color: var(--iv-text) !important;
+}
+
+:root[data-theme="light"] .hero-panel .btn-light {
+    background-color: var(--iv-card) !important;
+    border-color: var(--iv-card-border) !important;
+    color: var(--iv-text) !important;
+}
+
+:root[data-theme="light"] .hero-panel .btn-light:hover {
+    background-color: var(--iv-input-bg) !important;
+}
+
+:root[data-theme="light"] .hero-panel .btn-outline-light {
+    color: var(--iv-text) !important;
+    border-color: var(--iv-card-border) !important;
+}
+
+:root[data-theme="light"] .hero-panel .btn-outline-light:hover {
+    background: rgba(79, 70, 229, 0.08) !important;
+}
+
+:root[data-theme="light"] .hero-panel .bg-vault {
+    background: rgba(15, 23, 42, 0.04) !important;
+}
+
+/* Stat cards */
+.stat-card {
+    min-height: 10rem;
+}
+
+.stat-card .card-body {
+    padding: 1.5rem;
+}
+
+.badge-soft {
+    background: rgba(99, 102, 241, 0.12);
+    color: var(--iv-link);
+}
+
+/* Brand icon — used in notes header etc. */
+.brand-icon {
+    display: inline-flex;
+    width: 2.25rem;
+    height: 2.25rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: var(--iv-primary);
+    color: #fff;
+    font-size: 0.9rem;
+    margin-right: 0.6rem;
+}
+
+.brand-text {
+    font-weight: 700;
+}
+
+.bg-vault {
+    background: var(--iv-card) !important;
+    color: var(--iv-text) !important;
+}
+
+.bg-vault .text-white,
+.bg-vault h6,
+.bg-vault .fw-semibold {
+    color: var(--iv-text) !important;
+}
+
+:root[data-theme="light"] .hero-panel .text-white {
+    color: var(--iv-text) !important;
+}
+
+:root[data-theme="light"] .hero-panel .text-muted {
+    color: var(--iv-text-muted) !important;
+}
+
+:root[data-theme="light"] .btn-outline-light {
+    border-color: var(--iv-card-border) !important;
+    color: var(--iv-text) !important;
+}
+
+:root[data-theme="light"] .btn-outline-light:hover {
+    background: rgba(79, 70, 229, 0.08) !important;
+    border-color: var(--iv-primary) !important;
+    color: var(--iv-text) !important;
+}
+
+:root[data-theme="light"] .bg-vault {
+    background: rgba(15, 23, 42, 0.04) !important;
+}
+
+:root[data-theme="light"] .dashboard-hero {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.96), rgba(99, 102, 241, 0.9));
+}
+
+@media (max-width: 992px) {
+    .iv-navbar .navbar-collapse {
+        padding-top: 0.5rem;
+    }
+    .iv-navbar .nav-link {
+        padding: 0.55rem 0.75rem !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .iv-card {
+        padding: 1.75rem 1.25rem;
+    }
+    .iv-auth-title {
+        font-size: 1.3rem;
+    }
+    .iv-auth-wrapper {
+        padding: 1rem 0.75rem;
+    }
+}

@@ -1,0 +1,56 @@
+version: '3.9'
+
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      FLASK_ENV: development
+      FLASK_DEBUG: "True"
+      DATABASE_URL: postgresql://intellivault:intellivault@db:5432/intellivault
+      REDIS_URL: redis://redis:6379/0
+    volumes:
+      - .:/app
+      - uploads:/app/uploads
+      - vector_db:/app/vector_db
+    depends_on:
+      - db
+      - redis
+    networks:
+      - intellivault-network
+
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: intellivault
+      POSTGRES_PASSWORD: intellivault
+      POSTGRES_DB: intellivault
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U intellivault"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - intellivault-network
+
+  redis:
+    image: redis:7-alpine
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - intellivault-network
+
+volumes:
+  postgres_data:
+  uploads:
+  vector_db:
+
+networks:
+  intellivault-network:
+    driver: bridge

@@ -1,0 +1,296 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - IntelliVault{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card hero-panel overflow-hidden border-0 dashboard-hero">
+                <div class="card-body p-5">
+                    <div class="row align-items-center">
+                        <div class="col-lg-8">
+                            <div class="mb-4">
+                                <span class="badge badge-soft mb-2">Quick Overview</span>
+                                <h1 class="display-6 text-white mb-3">
+                                    Welcome back, {{ current_user.full_name or current_user.username }}
+                                </h1>
+                                <p class="text-muted lead mb-0">
+                                    Your secure vault is ready. You have <strong class="text-white">{{ stats.total_items }}</strong> items waiting to be organized, reviewed, and analyzed.
+                                </p>
+                            </div>
+                            <div class="d-flex flex-wrap gap-2">
+                                <a href="{{ url_for('pdf.upload') }}" class="btn btn-light btn-lg">
+                                    <i class="fas fa-upload me-2"></i> Upload Document
+                                </a>
+                                <a href="{{ url_for('dashboard.search') }}" class="btn btn-outline-light btn-lg">
+                                    <i class="fas fa-search me-2"></i> Search Vault
+                                </a>
+                                <a href="{{ url_for('ai.summarize') }}" class="btn btn-outline-light btn-lg">
+                                    <i class="fas fa-file-lines me-2"></i> Summarize
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 text-center mt-4 mt-lg-0">
+                            <div class="p-4 rounded-4 border border-white border-opacity-10">
+                                <i class="fas fa-shield-alt fa-4x text-primary mb-3"></i>
+                                <h3 class="h5 text-white mb-2">Secure & Intelligent</h3>
+                                <p class="text-muted mb-0">Access all your notes, documents, and insights from one intelligent dashboard.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-3 mb-4">
+        <div class="col-md-6 col-xl-3">
+            <div class="card stat-card border-start border-5 border-primary bg-gradient overflow-hidden">
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <p class="text-uppercase text-muted small mb-2">Documents</p>
+                            <h2 class="fw-bold mb-0">{{ stats.documents }}</h2>
+                        </div>
+                        <i class="fas fa-file-pdf fa-2x text-primary opacity-75"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-3">
+            <div class="card stat-card border-start border-5 border-success bg-gradient overflow-hidden">
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <p class="text-uppercase text-muted small mb-2">Notes</p>
+                            <h2 class="fw-bold mb-0">{{ stats.notes }}</h2>
+                        </div>
+                        <i class="fas fa-sticky-note fa-2x text-success opacity-75"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-3">
+            <div class="card stat-card border-start border-5 border-warning bg-gradient overflow-hidden">
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <p class="text-uppercase text-muted small mb-2">Quizzes</p>
+                            <h2 class="fw-bold mb-0">{{ stats.quizzes }}</h2>
+                        </div>
+                        <i class="fas fa-question-circle fa-2x text-warning opacity-75"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-3">
+            <div class="card stat-card border-start border-5 border-info bg-gradient overflow-hidden">
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <p class="text-uppercase text-muted small mb-2">Chat Sessions</p>
+                            <h2 class="fw-bold mb-0">{{ stats.chat_sessions }}</h2>
+                        </div>
+                        <i class="fas fa-comments fa-2x text-info opacity-75"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-3 mb-4">
+        <div class="col-lg-12">
+            <div class="card hero-panel border-0 overflow-hidden dashboard-hero">
+                <div class="card-body p-4 p-md-5">
+                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start gap-3">
+                        <div>
+                            <h5 class="mb-2 text-white"><i class="fas fa-bolt me-2"></i> Quick Actions</h5>
+                            <p class="text-muted mb-0">Complete tasks with one click and keep your workflow moving.</p>
+                        </div>
+                        <div class="d-flex flex-wrap gap-2">
+                            <a href="{{ url_for('notes.create_note') }}" class="btn btn-light btn-sm px-4">New Note</a>
+                            <a href="{{ url_for('quiz.list_quizzes') }}" class="btn btn-outline-light btn-sm px-4">Take Quiz</a>
+                        </div>
+                    </div>
+                    <div class="row mt-4 g-3">
+                        <div class="col-sm-6 col-md-3">
+                            <a href="{{ url_for('pdf.upload') }}" class="btn btn-secondary w-100 py-3 shadow-sm text-start">
+                                <div class="text-muted small">Upload</div>
+                                <div class="fw-semibold">Document</div>
+                            </a>
+                        </div>
+                        <div class="col-sm-6 col-md-3">
+                            <a href="{{ url_for('notes.create_note') }}" class="btn btn-secondary w-100 py-3 shadow-sm text-start">
+                                <div class="text-muted small">Create</div>
+                                <div class="fw-semibold">Note</div>
+                            </a>
+                        </div>
+                        <div class="col-sm-6 col-md-3">
+                            <a href="{{ url_for('dashboard.search') }}" class="btn btn-secondary w-100 py-3 shadow-sm text-start">
+                                <div class="text-muted small">Search</div>
+                                <div class="fw-semibold">Vault</div>
+                            </a>
+                        </div>
+                        <div class="col-sm-6 col-md-3">
+                            <a href="{{ url_for('quiz.list_quizzes') }}" class="btn btn-secondary w-100 py-3 shadow-sm text-start">
+                                <div class="text-muted small">Review</div>
+                                <div class="fw-semibold">Quizzes</div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if pinned_notes %}
+    <div class="row g-3 mb-4">
+        <div class="col-12">
+            <div class="card border-0 hero-panel overflow-hidden">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div>
+                            <h5 class="mb-1 text-white"><i class="fas fa-thumbtack me-2"></i> Pinned Notes</h5>
+                            <p class="text-muted mb-0">Your important notes stay front and center.</p>
+                        </div>
+                        <a href="{{ url_for('notes.list_notes') }}" class="btn btn-sm btn-outline-light">Manage Notes</a>
+                    </div>
+                    <div class="row g-4">
+                        {% for note in pinned_notes %}
+                        <div class="col-md-4">
+                            <div class="card bg-vault text-white h-100 border-0 shadow-sm">
+                                <div class="card-body">
+                                    <h6 class="card-title text-white mb-2">{{ note.title }}</h6>
+                                    <p class="card-text text-muted small mb-3">
+                                        {{ note.content[:100] }}{% if note.content|length > 100 %}...{% endif %}
+                                    </p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <small class="text-muted"><i class="fas fa-clock me-1"></i> {{ note.updated_at.strftime('%Y-%m-%d %H:%M') }}</small>
+                                        <a href="{{ url_for('notes.view_note', note_id=note.id) }}" class="btn btn-sm btn-outline-light">View</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if recent_documents %}
+    <div class="row g-3 mb-4">
+        <div class="col-12">
+            <div class="card border-0 hero-panel overflow-hidden">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div>
+                            <h5 class="mb-1 text-white"><i class="fas fa-file-pdf me-2"></i> Recent Documents</h5>
+                            <p class="text-muted mb-0">Quick access to your latest uploaded files.</p>
+                        </div>
+                        <a href="{{ url_for('pdf.upload') }}" class="btn btn-sm btn-light">View All</a>
+                    </div>
+                    <div class="table-responsive shadow-sm rounded-4 overflow-hidden">
+                        <table class="table table-dark table-borderless mb-0">
+                            <thead>
+                                <tr class="text-muted small text-uppercase">
+                                    <th>Title</th>
+                                    <th>Type</th>
+                                    <th>Status</th>
+                                    <th>Date</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for doc in recent_documents %}
+                                <tr>
+                                    <td><i class="fas fa-file-pdf text-danger me-2"></i>{{ doc.title }}</td>
+                                    <td>{{ doc.file_type.upper() }}</td>
+                                    <td>
+                                        {% if doc.status == 'completed' %}
+                                            <span class="badge bg-success">{{ doc.status }}</span>
+                                        {% elif doc.status == 'processing' %}
+                                            <span class="badge bg-info">{{ doc.status }}</span>
+                                        {% elif doc.status == 'failed' %}
+                                            <span class="badge bg-danger">{{ doc.status }}</span>
+                                        {% else %}
+                                            <span class="badge bg-secondary">{{ doc.status }}</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ doc.created_at.strftime('%Y-%m-%d') }}</td>
+                                    <td>
+                                        <a href="{{ url_for('pdf.view_pdf', doc_id=doc.id) }}" class="btn btn-sm btn-outline-light">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if notes %}
+    <div class="row g-3">
+        <div class="col-12">
+            <div class="card border-0 hero-panel overflow-hidden dashboard-hero">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div>
+                            <h5 class="mb-1 text-white"><i class="fas fa-sticky-note me-2"></i> Recent Notes</h5>
+                            <p class="text-muted mb-0">See your latest work and keep your ideas organized.</p>
+                        </div>
+                        <a href="{{ url_for('notes.list_notes') }}" class="btn btn-sm btn-light">View All</a>
+                    </div>
+                    <div class="table-responsive shadow-sm rounded-4 overflow-hidden">
+                        <table class="table table-dark table-borderless mb-0">
+                            <thead>
+                                <tr class="text-muted small text-uppercase">
+                                    <th>Title</th>
+                                    <th>Type</th>
+                                    <th>Date</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for note in notes %}
+                                <tr>
+                                    <td>{{ note.title }}</td>
+                                    <td><span class="badge bg-info">{{ note.note_type }}</span></td>
+                                    <td>{{ note.updated_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                                    <td>
+                                        <a href="{{ url_for('notes.view_note', note_id=note.id) }}" class="btn btn-sm btn-outline-light">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    setInterval(() => {
+        fetch('/api/dashboard/stats')
+            .then(response => response.json())
+            .then(data => {
+                console.log('Dashboard stats updated:', data);
+            })
+            .catch(error => console.error('Error:', error));
+    }, 30000);
+</script>
+{% endblock %}

@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block title %}Search - IntelliVault{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="card hero-panel">
+        <div class="card-body">
+          <div class="d-flex flex-column flex-md-row justify-content-between align-items-start gap-3">
+            <div>
+              <h2 class="hero-title">Search your vault</h2>
+              <p class="text-muted mb-0">Find documents, notes, and quizzes across your uploads.</p>
+            </div>
+            <form class="d-flex gap-2 flex-wrap" method="get" action="{{ url_for('dashboard.search') }}">
+              <input name="q" value="{{ query or '' }}" type="search" class="form-control" placeholder="Search documents, notes, quizzes..." required>
+              <select name="type" class="form-select">
+                <option value="all" {% if search_type == 'all' %}selected{% endif %}>All</option>
+                <option value="documents" {% if search_type == 'documents' %}selected{% endif %}>Documents</option>
+                <option value="notes" {% if search_type == 'notes' %}selected{% endif %}>Notes</option>
+                <option value="quizzes" {% if search_type == 'quizzes' %}selected{% endif %}>Quizzes</option>
+              </select>
+              <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% if query %}
+  <div class="row g-4">
+    <div class="col-12 col-xl-8">
+      <div class="card hero-panel">
+        <div class="card-body">
+          <h5 class="mb-3">Search results</h5>
+          {% if total_results == 0 %}
+          <div class="text-muted">No results found for "{{ query }}".</div>
+          {% else %}
+            {% if results.documents %}
+            <div class="mb-4">
+              <h6 class="mb-3">Documents</h6>
+              <div class="list-group">
+                {% for doc in results.documents %}
+                <a href="{{ url_for('pdf.view_pdf', doc_id=doc.id) }}" class="list-group-item list-group-item-action">
+                  <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                      <strong>{{ doc.title }}</strong>
+                      <div class="small text-muted">{{ doc.description or 'No description' }}</div>
+                    </div>
+                    <span class="badge rounded-pill bg-primary">{{ doc.file_type|upper }}</span>
+                  </div>
+                  <div class="small text-muted mt-1">Tags: {% if doc.tags %}{{ doc.tags.split(',')|join(', ') }}{% else %}None{% endif %}</div>
+                </a>
+                {% endfor %}
+              </div>
+            </div>
+            {% endif %}
+
+            {% if results.notes %}
+            <div class="mb-4">
+              <h6 class="mb-3">Notes</h6>
+              <div class="list-group">
+                {% for note in results.notes %}
+                <a href="{{ url_for('notes.view_note', note_id=note.id) }}" class="list-group-item list-group-item-action">
+                  <strong>{{ note.title }}</strong>
+                  <div class="small text-muted">{{ note.content[:120] }}{% if note.content|length > 120 %}...{% endif %}</div>
+                </a>
+                {% endfor %}
+              </div>
+            </div>
+            {% endif %}
+
+            {% if results.quizzes %}
+            <div class="mb-4">
+              <h6 class="mb-3">Quizzes</h6>
+              <div class="list-group">
+                {% for quiz in results.quizzes %}
+                <a href="{{ url_for('quiz.take_quiz', quiz_id=quiz.id) }}" class="list-group-item list-group-item-action">
+                  <strong>{{ quiz.title }}</strong>
+                  <div class="small text-muted">{{ quiz.description or 'No description' }}</div>
+                </a>
+                {% endfor %}
+              </div>
+            </div>
+            {% endif %}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-xl-4">
+      <div class="card hero-panel h-100">
+        <div class="card-body">
+          <h5 class="mb-3">Search tips</h5>
+          <ul class="list-unstyled text-muted small">
+            <li class="mb-2">Use keywords from document titles or notes.</li>
+            <li class="mb-2">Search full text inside uploaded documents.</li>
+            <li class="mb-2">Try filters to narrow results.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

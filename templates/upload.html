@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Upload Document - IntelliVault{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+  <div class="iv-auth-wrapper">
+    <div class="iv-auth-card">
+      <div class="iv-card">
+        <div style="text-align:center; margin-bottom:1.25rem;">
+          <h2 class="hero-title">Upload Document</h2>
+          <p class="iv-auth-subtitle">Upload PDFs, TXT, or DOCX files to store and analyze.</p>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <div class="mb-3">
+              {% for category, message in messages %}
+                <div class="alert alert-{{ 'danger' if category == 'error' else category }} alert-dismissible fade show" role="alert">
+                  {{ message }}
+                  <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        {% endwith %}
+
+        <form method="POST" enctype="multipart/form-data">
+          <div class="iv-field">
+            <label class="iv-label">Document Title</label>
+            <input type="text" name="title" class="iv-input" value="{{ title or '' }}" placeholder="Optional title for the document">
+          </div>
+          <div class="iv-field">
+            <label class="iv-label">Description</label>
+            <textarea name="description" class="iv-input" rows="3" placeholder="Short description or context">{{ description or '' }}</textarea>
+          </div>
+          <div class="iv-field">
+            <label class="iv-label">Tags</label>
+            <input type="text" name="tags" class="iv-input" value="{{ tags or '' }}" placeholder="Optional comma-separated tags">
+          </div>
+          <div class="iv-field">
+            <label class="iv-label">File</label>
+            <input type="file" name="file" class="iv-input" accept=".pdf,.txt,.docx" required>
+            <small class="text-muted">Allowed file types: PDF, TXT, DOCX. Max size: 50MB.</small>
+          </div>
+          <button class="iv-btn iv-btn--primary" type="submit">Upload Document</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}{{ action }} - IntelliVault{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+  <div class="row">
+    <div class="col-12">
+      <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb" style="background:transparent;padding:0;margin:0;">
+          <li class="breadcrumb-item"><a href="{{ url_for('dashboard.index') }}">Dashboard</a></li>
+          <li class="breadcrumb-item"><a href="{{ url_for('notes.list_notes') }}">Notes</a></li>
+          <li class="breadcrumb-item active" aria-current="page">{{ action }}</li>
+        </ol>
+      </nav>
+    </div>
+
+    <div class="col-lg-8">
+      <div class="card hero-panel">
+        <div class="card-body">
+          <h3 class="hero-title mb-2">{{ action }}</h3>
+          <p class="text-muted mb-4">Add or update note details to capture your insights.</p>
+
+          {% if error %}
+          <div class="alert alert-danger">{{ error }}</div>
+          {% endif %}
+
+          <form method="POST">
+            <div class="mb-3">
+              <label class="form-label">Title</label>
+              <input name="title" class="form-control" placeholder="Note title" value="{{ note.title if note else '' }}" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Content</label>
+              <textarea name="content" class="form-control" rows="10" placeholder="Write your note here..." required>{{ note.content if note else '' }}</textarea>
+            </div>
+            <div class="d-flex gap-2">
+              <button class="btn btn-primary" type="submit">{{ action }}</button>
+              <a href="{{ url_for('notes.list_notes') }}" class="btn btn-outline-light">Cancel</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="mb-2">Quick Tips</h5>
+          <ul class="text-muted small">
+            <li>Use descriptive titles so you can search later.</li>
+            <li>Paste excerpts from documents to create linked notes.</li>
+            <li>Pin important notes from the Notes list.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

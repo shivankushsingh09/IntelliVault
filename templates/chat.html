@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}AI Chat - IntelliVault{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+  <div class="row g-4">
+    <div class="col-lg-8">
+      <div class="card hero-panel">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-start mb-4">
+            <div>
+              <h2 class="hero-title">AI Chat</h2>
+              <p class="text-muted mb-0">Ask questions about your uploaded documents and notes.</p>
+            </div>
+            {% if session %}
+            <div class="text-end">
+              <small class="text-muted">Session:</small>
+              <div class="fw-semibold">{{ session.title }}</div>
+            </div>
+            {% endif %}
+          </div>
+
+          <div id="chat-window" class="chat-window mb-4">
+            {% if messages %}
+              {% for message in messages %}
+              <div class="chat-message {{ 'chat-assistant' if message.role == 'assistant' else 'chat-user' }} mb-3 p-3 rounded-4">
+                <div class="small text-muted mb-2">{{ message.role|capitalize }}</div>
+                <div>{{ message.content }}</div>
+              </div>
+              {% endfor %}
+            {% else %}
+              <div class="text-muted">Start a new session by asking a question.</div>
+            {% endif %}
+          </div>
+
+          <form id="chat-form" class="d-flex gap-3">
+            <input id="chat-input" type="text" class="form-control" placeholder="Type your question here..." autocomplete="off">
+            <button class="btn btn-primary" type="submit">Send</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="card hero-panel h-100">
+        <div class="card-body">
+          <h5 class="hero-title">AI Chat Tips</h5>
+          <ul class="list-unstyled text-muted small">
+            <li class="mb-3">Ask about document titles or note topics.</li>
+            <li class="mb-3">Try: "Show my latest documents" or "What does my note about finance say?"</li>
+            <li class="mb-3">Use AI Chat to surface content from your vault quickly.</li>
+          </ul>
+          <a href="{{ url_for('ai.chat', new=1) }}" class="btn btn-outline-secondary">New Session</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  const chatForm = document.getElementById('chat-form');
+  const chatInput = document.getElementById('chat-input');
+  const chatWindow = document.getElementById('chat-window');
+  const sessionId = {{ session.id if session else 'null' }};
+
+  function addMessage(role, content) {
+    const messageEl = document.createElement('div');
+    messageEl.className = `chat-message ${role === 'assistant' ? 'chat-assistant' : 'chat-user'} mb-3 p-3 rounded-4`;
+    messageEl.innerHTML = `<div class="small text-muted mb-2">${role === 'assistant' ? 'Assistant' : 'You'}</div><div>${content}</div>`;
+    chatWindow.appendChild(messageEl);
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+  }
+
+  if (chatForm) {
+    chatForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const message = chatInput.value.trim();
+      if (!message) return;
+
+      addMessage('user', message);
+      chatInput.value = '';
+
+      const response = await fetch('{{ url_for('ai.api_chat') }}', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({session_id: sessionId, message})
+      });
+      const result = await response.json();
+      if (response.ok) {
+        addMessage('assistant', result.response);
+      } else {
+        addMessage('assistant', result.error || 'Unable to get a response.');
+      }
+    });
+  }
+</script>
+{% endblock %}

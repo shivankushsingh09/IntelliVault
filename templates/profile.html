@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block title %}Profile - IntelliVault{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+  <div class="row mb-4">
+    <div class="col-12">
+      <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb" style="background:transparent;padding:0;margin:0;">
+          <li class="breadcrumb-item"><a href="{{ url_for('dashboard.index') }}">Dashboard</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Profile</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+
+  <div class="row gy-4">
+    <div class="col-xl-4">
+      <div class="card hero-panel h-100">
+        <div class="card-body text-center">
+          <div class="profile-avatar mb-3">{{ user.full_name[:1] if user.full_name else user.username[:1] }}</div>
+          <h3 class="mb-1">{{ user.full_name or user.username }}</h3>
+          <p class="text-muted mb-3">{{ user.email }}</p>
+          {% if user.bio %}
+          <p class="text-muted small mb-4">{{ user.bio }}</p>
+          {% else %}
+          <p class="text-muted small mb-4">Your profile is ready. Add a short bio to personalize your account.</p>
+          {% endif %}
+          <div class="d-grid gap-2">
+            <a href="{{ url_for('profile.settings') }}" class="btn btn-primary">Edit Profile</a>
+            <a href="{{ url_for('profile.settings') }}" class="btn btn-outline-light">Account Settings</a>
+          </div>
+        </div>
+        <div class="card-footer bg-transparent border-top">
+          <div class="d-flex justify-content-between text-muted small">
+            <span>Joined</span>
+            <span>{{ user.created_at.strftime('%Y-%m-%d') if user.created_at else 'N/A' }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-8">
+      <div class="row g-4">
+        <div class="col-md-6">
+          <div class="card hero-panel h-100">
+            <div class="card-body">
+              <div class="d-flex align-items-start justify-content-between mb-3">
+                <div>
+                  <p class="text-muted small mb-1">Account Status</p>
+                  <h5 class="mb-0">{{ 'Active' if user.is_active else 'Inactive' }}</h5>
+                </div>
+                <span class="badge bg-success align-self-start">{{ 'Verified' if user.is_email_verified else 'Unverified' }}</span>
+              </div>
+              <p class="text-muted small">Keep your email verified to enable secure account features and recover access quickly.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="card hero-panel h-100">
+            <div class="card-body">
+              <div class="d-flex align-items-start justify-content-between mb-3">
+                <div>
+                  <p class="text-muted small mb-1">Appearance</p>
+                  <h5 class="mb-0">{{ user.theme.capitalize() if user.theme else 'Light' }}</h5>
+                </div>
+                <span class="badge bg-info align-self-start">Theme</span>
+              </div>
+              <p class="text-muted small">Use profile settings to switch between light and dark mode, and personalize your workspace.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <div class="card hero-panel">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                  <h4 class="hero-title mb-2">About You</h4>
+                  <p class="text-muted mb-0">Keep your profile information up to date so IntelliVault understands your preferences.</p>
+                </div>
+                <a href="{{ url_for('profile.settings') }}" class="btn btn-outline-light btn-sm">Update details</a>
+              </div>
+              <div class="row gy-3">
+                <div class="col-sm-6">
+                  <div class="profile-detail">
+                    <small class="text-muted">Username</small>
+                    <div>{{ user.username }}</div>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="profile-detail">
+                    <small class="text-muted">Email</small>
+                    <div>{{ user.email }}</div>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="profile-detail">
+                    <small class="text-muted">Notifications</small>
+                    <div>{{ 'Enabled' if user.notifications_enabled else 'Disabled' }}</div>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="profile-detail">
+                    <small class="text-muted">Bio</small>
+                    <div>{{ user.bio or 'No biography added yet.' }}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

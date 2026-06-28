@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+
+{% block title %}Settings - IntelliVault{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+  <div class="row mb-3">
+    <div class="col-12">
+      <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{{ url_for('dashboard.index') }}">Dashboard</a></li>
+          <li class="breadcrumb-item"><a href="{{ url_for('profile.profile') }}">Profile</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Settings</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-xl-4">
+      <div class="card hero-panel settings-card h-100">
+        <div class="card-body text-center">
+          <div class="profile-avatar mb-3">{{ user.full_name[:1] if user.full_name else user.username[:1] }}</div>
+          <h3 class="mb-1">{{ user.full_name or user.username }}</h3>
+          <p class="text-muted mb-3">{{ user.email }}</p>
+          <p class="text-muted small mb-4">Account settings let you personalize your profile, secure your session, and adjust your workspace preferences.</p>
+          <div class="d-grid gap-2">
+            <a href="{{ url_for('profile.profile') }}" class="btn btn-outline-light">View Profile</a>
+            <a href="{{ url_for('auth.logout') }}" class="btn btn-secondary">Logout</a>
+          </div>
+        </div>
+        <div class="card-footer bg-transparent border-top">
+          <div class="d-flex justify-content-between text-muted small">
+            <span>Notifications</span>
+            <span>{{ 'Enabled' if user.notifications_enabled else 'Disabled' }}</span>
+          </div>
+          <div class="d-flex justify-content-between text-muted small mt-2">
+            <span>Theme</span>
+            <span>{{ user.theme.capitalize() if user.theme else 'Light' }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-8">
+      <div class="card hero-panel">
+        <div class="card-body">
+          <div class="d-flex flex-column flex-md-row justify-content-between align-items-start gap-3 mb-4">
+            <div>
+              <h2 class="hero-title mb-1">Settings</h2>
+              <p class="text-muted mb-0">Update personal details, security, and preferences from one place.</p>
+            </div>
+            <button form="settingsForm" type="submit" class="btn btn-primary">Save changes</button>
+          </div>
+
+          <form id="settingsForm" class="row g-4">
+            <div class="col-lg-6">
+              <div class="settings-section">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                  <div>
+                    <h5 class="mb-1">Profile details</h5>
+                    <p class="setting-note mb-0">Your visible name and bio are used across IntelliVault.</p>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label" for="fullNameInput">Full name</label>
+                  <input id="fullNameInput" name="full_name" type="text" class="form-control" value="{{ user.full_name or '' }}" placeholder="Your full name">
+                </div>
+                <div class="mb-3">
+                  <label class="form-label" for="emailInput">Email address</label>
+                  <input id="emailInput" type="email" class="form-control" value="{{ user.email }}" disabled>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label" for="bioInput">Biography</label>
+                  <textarea id="bioInput" name="bio" class="form-control" rows="3" placeholder="Tell us a little bit about yourself">{{ user.bio or '' }}</textarea>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-6">
+              <div class="settings-section">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                  <div>
+                    <h5 class="mb-1">Security</h5>
+                    <p class="setting-note mb-0">Update your password and secure your account.</p>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label" for="currentPasswordInput">Current password</label>
+                  <input id="currentPasswordInput" name="current_password" type="password" class="form-control" placeholder="Enter current password">
+                </div>
+                <div class="mb-3">
+                  <label class="form-label" for="newPasswordInput">New password</label>
+                  <input id="newPasswordInput" name="new_password" type="password" class="form-control" placeholder="Enter new password">
+                </div>
+                <div class="mb-3">
+                  <label class="form-label" for="confirmPasswordInput">Confirm new password</label>
+                  <input id="confirmPasswordInput" name="confirm_password" type="password" class="form-control" placeholder="Repeat new password">
+                </div>
+                <small class="text-muted">Choose a strong password with at least 8 characters.</small>
+              </div>
+            </div>
+
+            <div class="col-12">
+              <div class="settings-section">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                  <div>
+                    <h5 class="mb-1">Workspace preferences</h5>
+                    <p class="setting-note mb-0">Control your layout, theme, and notification behavior.</p>
+                  </div>
+                </div>
+                <div class="row gx-4 gy-3 align-items-center">
+                  <div class="col-md-6">
+                    <label class="form-label" for="themeSelect">Theme</label>
+                    <select id="themeSelect" name="theme" class="form-select">
+                      <option value="light" {% if user.theme == 'light' %}selected{% endif %}>Light</option>
+                      <option value="dark" {% if user.theme == 'dark' %}selected{% endif %}>Dark</option>
+                      <option value="system" {% if user.theme == 'system' %}selected{% endif %}>System default</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">Email notifications</label>
+                    <div class="form-check form-switch mt-2">
+                      <input class="form-check-input" type="checkbox" id="notificationsToggle" name="notifications_enabled" {% if user.notifications_enabled %}checked{% endif %}>
+                      <label class="form-check-label" for="notificationsToggle">Enabled</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12">
+              <div class="settings-section mt-4">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                  <div>
+                    <h5 class="mb-1">Danger zone</h5>
+                    <p class="setting-note mb-0">Destroy account data or revoke access in case of an emergency.</p>
+                  </div>
+                </div>
+                <div class="d-flex flex-column flex-sm-row gap-3">
+                  <button id="resetPreferencesBtn" type="button" class="btn btn-outline-primary">Reset preferences</button>
+                  <button id="deleteAccountBtn" type="button" class="btn btn-danger">Delete account</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
